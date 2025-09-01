@@ -1,0 +1,85 @@
+{
+    "name": "volseg_Image_Segmentation",
+    "version": "0.0.1",
+    "type": "supervised",
+    "user": "mlexchange team",
+    "uri": "ghcr.io/mlexchange/mlex_dlsia_segmentation:main",
+    "application": ["segmentation"],
+    "description": "DLSIA for image segmentation",
+    "gui_parameters": [
+    {
+        "type": "dropdown",
+        "name": "model_type",
+        "title": "Model Architecture",
+        "param_key": "model_type",
+        "value": "U_Net",
+        "options": [
+        {"label": "U-Net", "value": "U_Net"},
+        {"label": "DeepLabV3", "value": "DeepLabV3"},
+        {"label": "FPN", "value": "FPN"}
+        ],
+        "comp_group": "train_model"
+    },
+    {
+        "type": "dropdown",
+        "name": "encoder",
+        "title": "Encoder Type",
+        "param_key": "encoder_name",
+        "value": "resnet34",
+        "options": [
+        {"label": "resnet34", "value": "resnet34"},
+        {"label": "resnet50", "value": "resnet50"}
+        ],
+        "comp_group": "train_model"
+    },
+    {
+        "type": "dropdown",
+        "name": "training_axes",
+        "title": "Training Axes",
+        "param_key": "training_axes",
+        "value": "All",
+        "options": [
+        {"label": "All", "value": "All"},
+        {"label": "Z", "value": "Z"},
+        {"label": "X", "value": "X"},
+        {"label": "Y", "value": "Y"}
+        ],
+        "comp_group": "train_model"
+    },
+    {
+        "type": "int",
+        "name": "num_cyc_frozen",
+        "title": "Frozen Epochs",
+        "param_key": "num_cyc_frozen",
+        "value": 8,
+        "comp_group": "train_model"
+    },
+    {
+        "type": "int",
+        "name": "num_cyc_unfrozen",
+        "title": "Unfrozen Epochs",
+        "param_key": "num_cyc_unfrozen",
+        "value": 5,
+        "comp_group": "train_model"
+    },
+    {
+        "type": "dropdown",
+        "name": "loss_criterion",
+        "title": "Loss Function",
+        "param_key": "loss_criterion",
+        "value": "DiceLoss",
+        "options": [
+        {"label": "Dice Loss", "value": "DiceLoss"},
+        {"label": "Cross Entropy", "value": "CrossEntropyLoss"},
+        {"label": "BCEDiceLoss", "value": "BCEDiceLoss"}
+        ],
+        "comp_group": "train_model"
+    }
+    ],
+
+    "cmd": ["python3 src/train_model.py","python3 src/predict_model.py"],
+        "reference": "https://dlsia.readthedocs.io/en/latest/",
+        "content_type": "model",
+        "public": false,
+        "service_type": "backend"
+}

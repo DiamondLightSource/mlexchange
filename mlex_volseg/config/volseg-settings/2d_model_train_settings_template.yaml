@@ -1,0 +1,41 @@
+# Settings for image and model output
+data_im_dirname: {{ data_im_dirname | default('data') }} # Name of folder that sliced data 2D images will be output to
+seg_im_out_dirname: {{ seg_im_out_dirname | default('seg') }} # Name of folder that sliced segmentation 2D images will be output to 
+model_output_fn: {{ model_output_fn | default('trained_2d_model') }} # Suffix for the saved model filename
+clip_data: {{ clip_data | default(True) }} # Clip and rescale the image data intensities before saving to disk
+st_dev_factor: {{ st_dev_factor | default(2.575) }} # The number of standard deviations from the mean to clip data to
+data_hdf5_path: {{ data_hdf5_path | default('/data') }} # The internal HDF5 path to the image data
+seg_hdf5_path: {{ seg_hdf5_path | default('/data') }} # The internal HDF5 path to the label data
+
+# Settings for model training
+training_axes: {{ training_axes | default('All') }} # Specify axes/single axis to train on. Choose from [All, Z, X, Y]. 
+image_size: {{ image_size | default(256) }} # Size of images used for training (must be multiple of 32)
+downsample: {{ downsample | default(False) }} # If True, data will be downsampled by 2
+training_set_proportion: {{ training_set_proportion | default(0.85) }} # Proportion of images for training; rest for validation
+cuda_device: {{ cuda_device | default(0) }} # GPU device index
+num_cyc_frozen: {{ num_cyc_frozen | default(8) }} # Training epochs on frozen model
+num_cyc_unfrozen: {{ num_cyc_unfrozen | default(5) }} # Training epochs on unfrozen model
+patience: {{ patience | default(4) }} # Early stopping patience
+
+loss_criterion: "{{ loss_criterion | default('DiceLoss') }}" # Choose from [BCEDiceLoss, BCELoss, DiceLoss, GeneralizedDiceLoss, CrossEntropyLoss]
+alpha: {{ alpha | default(0.5) }} # Weight for BCELoss (if using BCEDiceLoss)
+beta: {{ beta | default(0.5) }} # Weight for DiceLoss (if using BCEDiceLoss)
+eval_metric: "{{ eval_metric | default('DiceCoefficient') }}" # Choose from [MeanIoU, DiceCoefficient]
+pct_lr_inc: {{ pct_lr_inc | default(0.3) }} # Portion of iterations with increasing LR
+
+# Parameters for finding learning rate
+starting_lr: {{ starting_lr | default('1e-5') }} # Lower bound of LR search
+end_lr: {{ end_lr | default(1e-3) }} # Upper bound of LR search
+lr_find_epochs: {{ lr_find_epochs | default(1) }} # Epochs for LR finder
+lr_reduce_factor: {{ lr_reduce_factor | default(500) }} # Factor to scale LR on reload
+plot_lr_graph: {{ plot_lr_graph | default(False) }} # If True, plot LR using gnuplot
+use_sam: {{use_sam | default(False)}}
+adaptive_sam: {{adaptive_sam | default(True)}}
+encoder_weights_path: {{encoder_weights_path | default(False) }} # Default is overriden with path to encoder weights e.g /somewhere/improved-resnet4.pt
+full_weights_path: {{full_weights_path | default(False)}}
+
+# Parameters to control model architecture
+model:
+  type: "{{ model.type | default('U_Net') }}"
+  encoder_name: "{{ model.encoder_name | default('resnet34') }}"
+  encoder_weights: "{{ model.encoder_weights | default('imagenet') }}"

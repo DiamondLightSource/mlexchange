@@ -1,0 +1,12 @@
+
+
+quality: {{quality | default('medium')}}
+output_probs: {{output_probs | default('False')}}  # If set to True a separate volume of probabilty values for the predictions will be saved alongside the labels.
+clip_data: {{clip_data | default('True')}} # If set to True, the image data intensities will be clipped and rescaled before prediction. Set to False  if data is already clipped.
+st_dev_factor: {{st_dev_factor| default('2.575')}}  # Number of standard deviations from the mean to clip data to.
+data_hdf5_path: {{data_hdf5_path | default('/data')}}  # Internal path in the HDF5 file where the image data for prediction is stored.
+cuda_device: {{cuda_device | default('0')}}  # Change this if you would like to run the prediction on a different GPU
+downsample: {{downsample | default('False')}}  # If True, data will be downsampled by 2 and segmentation will be upsampled by 2
+one_hot: {{one_hot | default('False')}}  # Output one-hot encoded data
+prediction_axis: {{prediction_axis | default('Z')}}  # One of [Z, Y, X]. Specify axis along which to predict if doing single-axis prediction.
+output_size: {{output_size | default('512')}} 
